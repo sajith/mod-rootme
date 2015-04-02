@@ -1,6 +1,4 @@
 /*
- *  Common functions for mod_rootme{,2}
- *
  *  Copyright (C) 2004  Christophe Devine
  *
  *  This program is free software; you can redistribute it and/or modify
