@@ -5,7 +5,7 @@ mod_rootme is a Apache backdoor module that can spawn a root shell.
 
 I used this module while teaching a software security lab.  The module
 has been around for a while, but
-[[http://blog.danfego.net/2009/10/update-to-mod_rootme/][the blog]]
+[the blog](http://blog.danfego.net/2009/10/update-to-mod_rootme/)
 that hosted the most recent version seems to have disappeared from the
 web.  Malware detection programs such as 'rkhunter' and 'unhide' can
 trivially detect the presence of mod_root, so it should not be too
