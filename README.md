@@ -33,7 +33,7 @@ Now to enable the module:
 
 ```
 sudo a2enmod rootme
-sudo service apache restart
+sudo service apache2 restart
 ```
 
 To check that the root shell is indeed available:
@@ -49,5 +49,5 @@ To uninstall the module:
 ```
 sudo a2dismod rootme
 rm /usr/lib/apache2/modules/mod_rootme.so
-sudo service apache restart
+sudo service apache2 restart
 ```
