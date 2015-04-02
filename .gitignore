@@ -7,3 +7,6 @@
 /mod_rootme.lo
 /mod_rootme.o
 /mod_rootme.slo
+/.libs/mrm_server.o
+/mrm_server.lo
+/mrm_server.slo
