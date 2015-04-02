@@ -18,8 +18,13 @@ APACHECTL=apachectl
 #LIBS=-Lmy/lib/dir -lmylib
 LDFLAGS+=-lutil
 
-#   the default target
-all: local-shared-build
+SRCS = mod_rootme.c 
+
+mod_rootme.so: $(SRCS)
+
+# the default target
+all: mod_rootme.so
+	$(APXS) $(INCLUDES) -c $(SRCS) $(LDFLAGS) $(LIBS) 
 
 #   install the shared object file into Apache 
 install: install-modules-yes
