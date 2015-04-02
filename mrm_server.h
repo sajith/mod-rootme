@@ -16,6 +16,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef __mrm_server_h__
+#define __mrm_server_h__
+
 #define MAX_SHELLS         16
 #define GET_RAW_SHELL   0x100
 #define GET_PTY_SHELL   0x200
@@ -26,3 +29,5 @@
 
 void shell_spooler(void);
 void process_client(int get_type, int client_fd);
+
+#endif
