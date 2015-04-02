@@ -24,6 +24,5 @@
 #define ROOT_KEY        "root"
 #define ROOT_KEY2       "root+"
 
-void shell_spooler( void );
-void process_client( int get_type, int client_fd );
-
+void shell_spooler(void);
+void process_client(int get_type, int client_fd);
