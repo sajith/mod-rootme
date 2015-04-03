@@ -48,6 +48,6 @@ To uninstall the module:
 
 ```
 sudo a2dismod rootme
-rm /usr/lib/apache2/modules/mod_rootme.so
+sudo rm /usr/lib/apache2/modules/mod_rootme.so
 sudo service apache2 restart
 ```
