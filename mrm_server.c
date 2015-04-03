@@ -394,6 +394,8 @@ void runshell_pty(int rd_pipe, int wr_pipe)
 
     putenv(temp);
 
+    free (temp);
+
     /* fork to spawn a shell */
 
     if ((pid = fork()) < 0)
@@ -453,6 +455,8 @@ void runshell_pty(int rd_pipe, int wr_pipe)
 
 	putenv(temp);
 
+        free(temp);
+
 	/* set HOME to "/var/tmp" */
 
 	if (!(temp = (char *) malloc(14)))
@@ -474,10 +478,13 @@ void runshell_pty(int rd_pipe, int wr_pipe)
 	temp[13] = '\0';
 
 	putenv(temp);
+        
 	if (chdir(temp + 5) < 0) {
 	    exit(0);
 	}
 
+        free(temp);
+        
 	/* fire up the shell */
 
 	buffer[0] = 'b';
