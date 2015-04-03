@@ -16,7 +16,7 @@ Debian GNU/Linux 8.0.
 
 See README.old.txt for the original documentation.
 
-## Build instructions
+## Trying this thing out
 
 To build and test on a Debian/Ubuntu system, you would need apache2
 and apache2-dev.  Run 'make' and 'sudo make install' to build the
