@@ -19,7 +19,6 @@
 #ifndef __mrm_server_h__
 #define __mrm_server_h__
 
-#define MAX_SHELLS         16
 #define GET_RAW_SHELL   0x100
 #define GET_PTY_SHELL   0x200
 

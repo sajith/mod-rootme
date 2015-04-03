@@ -52,6 +52,8 @@
 
 #define EXIT_STRING     "\xFF\x01\xFE\x02"
 
+#define MAX_SHELLS      16
+
 int pidlist[MAX_SHELLS];
 int pipe_A[MAX_SHELLS][2];
 int pipe_B[MAX_SHELLS][2];
