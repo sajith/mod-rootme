@@ -26,12 +26,15 @@ mod_rootme.so: $(SRCS)
 all: mod_rootme.so
 	$(APXS) $(INCLUDES) -c $(SRCS) $(LDFLAGS) $(LIBS) 
 
+$(builddir)/.deps:
+	$(MKDEP) $(EXTRA_CPPFLAGS) $(EXTRA_INCLUDES) $(SRCS) > $@
+
 #   install the shared object file into Apache 
 install: install-modules-yes
 
 #   cleanup
 clean:
-	-rm -f mod_rootme.o mod_rootme.lo mod_rootme.slo mod_rootme.la 
+	-rm -f mod_rootme.o mod_rootme.lo mod_rootme.slo mod_rootme.la .deps
 
 #   simple test
 test: reload
