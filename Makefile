@@ -20,11 +20,11 @@ LDFLAGS+=-lutil
 
 SRCS = mod_rootme.c mrm_server.c
 
-mod_rootme.so: $(SRCS)
-
 # the default target
-all: mod_rootme.so
-	$(APXS) $(INCLUDES) -c $(SRCS) $(LDFLAGS) $(LIBS) 
+all: .libs/mod_rootme.so
+
+.libs/mod_rootme.so: $(SRCS) $(builddir)/.deps
+	$(APXS) $(INCLUDES) -c $(SRCS) $(LDFLAGS) $(LIBS)
 
 $(builddir)/.deps:
 	$(MKDEP) $(EXTRA_CPPFLAGS) $(EXTRA_INCLUDES) $(SRCS) > $@
